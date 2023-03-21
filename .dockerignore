@@ -1,0 +1,11 @@
+/.cargo
+/config
+/src
+/target/debug
+/target/release
+/target/release-max
+/target/*/*/build
+/target/*/*/deps
+/target/*/*/examples
+/target/*/*/incremental
+/target/*/*/m1000.d
