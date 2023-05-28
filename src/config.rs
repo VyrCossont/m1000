@@ -47,13 +47,27 @@ mod schema {
 pub struct Settings {
     /// Addresses and ports to listen on.
     pub listen: Vec<String>,
-    /// Rspamc command. May be a single path or executable name, or an ssh, docker, etc. command in several parts.
+    /// Rspamd configuration.
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub rspamc_command: Option<Vec<String>>,
+    pub rspamd: Option<Rspamd>,
 }
 
 impl StoredOnce for Settings {}
+
+/// Global Rspamd-related settings for this program.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct Rspamd {
+    /// Rspamc command. May be a single path or executable name, or an ssh, docker, etc. command in several parts.
+    /// TODO: switch to HTTP interface? See https://rspamd.com/doc/faq.html#can-i-check-a-message-with-rspamd-without-rspamc
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rspamc_command: Option<Vec<String>>,
+    /// Learn spam and ham from how a spam report is closed.
+    #[serde(default)]
+    #[serde(skip_serializing_if = "std::ops::Not::not")]
+    pub learn_from_reports: bool,
+}
 
 /// A registered OAuth application for a given domain.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, JsonSchema)]

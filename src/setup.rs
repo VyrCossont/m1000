@@ -31,7 +31,10 @@ pub fn ensure_settings(config_dir: &Path) -> Result<Settings> {
         listen: vec![
             SocketAddr::new(IpAddr::from(Ipv6Addr::UNSPECIFIED), DEFAULT_PORT).to_string(),
         ],
-        rspamc_command: find_rspamc(),
+        rspamd: find_rspamc().map(|rspamc_command| Rspamd {
+            rspamc_command: Some(rspamc_command),
+            learn_from_reports: false,
+        }),
     };
     settings.save(config_dir)?;
     info!(

@@ -42,7 +42,7 @@ pub enum Event {
         #[serde(with = "iso8601")]
         created_at: OffsetDateTime,
         #[serde(rename = "object")]
-        object: Report,
+        report: Report,
     },
     #[serde(rename = "report.updated")]
     ReportUpdated {
